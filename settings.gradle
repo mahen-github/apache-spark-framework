@@ -33,5 +33,5 @@ buildscript {
 	}
 }
 
-rootProject.name = 'spark-scala-gradle-bootstrap'
+rootProject.name = 'apache-spark-framework'
 assert gradle.gradleVersion =~ "7..+"
