@@ -25,7 +25,6 @@ metastore_db
 *.class
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
