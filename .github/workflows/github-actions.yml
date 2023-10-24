@@ -15,6 +15,5 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-          pwd
-          ./gradlew tasks
+
       - run: echo "🍏 This job's status is ${{ job.status }}."
