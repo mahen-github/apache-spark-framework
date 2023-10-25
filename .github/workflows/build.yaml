@@ -76,6 +76,6 @@ jobs:
       - name: Copy files to the test website with the AWS CLI
         run: |
           ls -lrt
-          ls -lrRt build
+          gradle assemble
           aws s3 ls s3://mahendran-dev-data
           aws s3 sync build/libs s3://mahendran-dev-data/libs
