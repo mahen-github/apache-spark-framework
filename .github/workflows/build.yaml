@@ -69,6 +69,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Download a single artifact
+        # https://github.com/actions/download-artifact
         uses: actions/download-artifact@v3
         with:
           name: apache-spark-framework-artifact
@@ -81,6 +82,6 @@ jobs:
       - name: Copy files to the test website with the AWS CLI
         run: |
           pwd
-          ls -lrt
+          ls -lrt ${{steps.download.outputs.download-path}}
           aws s3 ls s3://mahendran-dev-data
-          aws s3 sync build/libs s3://mahendran-dev-data/libs
+          aws s3 sync ${{steps.download.outputs.download-path}} s3://mahendran-dev-data/libs
