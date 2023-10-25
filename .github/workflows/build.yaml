@@ -28,9 +28,9 @@ jobs:
         with:
           path: |
             ~/build/libs
-          key: ${{ runner.os }}-build-${{ hashFiles('**/*.jar') }}
+          key: ${{ runner.os }}-build-${{ hashFiles('build/libs/*.jar') }}
           restore-keys: |
-            ${{ runner.os }}-build-
+            ${{ runner.os }}-build-${{ hashFiles('build/libs/*.jar') }}
 
   test:
     runs-on: ubuntu-latest
@@ -72,5 +72,4 @@ jobs:
           ls -lrt
           ls -lrRt build
           aws s3 ls s3://mahendran-dev-data
-          
           aws s3 sync build/libs s3://mahendran-dev-data/libs
