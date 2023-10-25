@@ -45,6 +45,7 @@ jobs:
   # https://github.com/aws-actions/configure-aws-credentials
   deploy:
     name: Upload to Amazon S3
+    needs: build
     runs-on: ubuntu-latest
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.
     permissions:
