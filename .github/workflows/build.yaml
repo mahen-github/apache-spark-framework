@@ -5,6 +5,7 @@ on:
     branches: "**"
 
 # https://medium.com/alterway/building-a-ci-cd-pipeline-for-a-spark-project-using-github-actions-sbt-and-aws-s3-part-1-c7d43658832d
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -41,3 +42,22 @@ jobs:
           gradle-version: 7.6
       - name: Running Unit Tests
         run: gradle check
+  # https://github.com/aws-actions/configure-aws-credentials
+  deploy:
+    name: Upload to Amazon S3
+    runs-on: ubuntu-latest
+    # These permissions are needed to interact with GitHub's OIDC Token endpoint.
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Configure AWS credentials from Test account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::980574647228:role/mahen-github-s3-copy-action
+          aws-region: us-west-2
+      - name: Copy files to the test website with the AWS CLI
+        run: |
+          aws s3 sync build/libs s3://mahendran-dev-data/libs
