@@ -23,6 +23,14 @@ jobs:
         with:
           gradle-version: 7.6
       - run: gradle assemble
+      - name: Setup caches
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/build/libs
+          key: ${{ runner.os }}-build-${{ hashFiles('**/*.jar') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
 
   test:
     runs-on: ubuntu-latest
@@ -61,5 +69,8 @@ jobs:
           aws-region: us-west-2
       - name: Copy files to the test website with the AWS CLI
         run: |
+          ls -lrt
+          ls -lrRt build
           aws s3 ls s3://mahendran-dev-data
+          
           aws s3 sync build/libs s3://mahendran-dev-data/libs
