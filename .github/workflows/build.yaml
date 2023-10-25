@@ -61,4 +61,5 @@ jobs:
           aws-region: us-west-2
       - name: Copy files to the test website with the AWS CLI
         run: |
+          aws s3 ls s3://mahendran-dev-data
           aws s3 sync build/libs s3://mahendran-dev-data/libs
