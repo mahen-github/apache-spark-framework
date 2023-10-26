@@ -5,7 +5,6 @@ on:
     branches: "**"
 
 # https://medium.com/alterway/building-a-ci-cd-pipeline-for-a-spark-project-using-github-actions-sbt-and-aws-s3-part-1-c7d43658832d
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -83,3 +82,4 @@ jobs:
           ls -lrt ${{steps.download-artifact.outputs.download-path}}
           aws s3 sync ${{steps.download-artifact.outputs.download-path}} s3://mahendran-dev-data/libs
           aws s3 ls s3://mahendran-dev-data
+          echo "🍏 This job's status is ${{ job.status }}."
