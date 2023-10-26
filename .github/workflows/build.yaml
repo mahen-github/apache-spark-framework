@@ -59,15 +59,13 @@ jobs:
   # https://github.com/aws-actions/configure-aws-credentials
   deploy:
     name: Upload to Amazon S3
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.
     permissions:
       id-token: write
       contents: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
       - name: Download a single artifact
         # https://github.com/actions/download-artifact
         uses: actions/download-artifact@v3
@@ -82,7 +80,6 @@ jobs:
           aws-region: us-west-2
       - name: Copy files to the test website with the AWS CLI
         run: |
-          pwd
           ls -lrt ${{steps.download-artifact.outputs.download-path}}
-          aws s3 ls s3://mahendran-dev-data
           aws s3 sync ${{steps.download-artifact.outputs.download-path}} s3://mahendran-dev-data/libs
+          aws s3 ls s3://mahendran-dev-data
