@@ -71,6 +71,7 @@ jobs:
       - name: Download a single artifact
         # https://github.com/actions/download-artifact
         uses: actions/download-artifact@v3
+        id: download-artifact
         with:
           name: apache-spark-framework-artifact
           path: build/libs
@@ -82,6 +83,6 @@ jobs:
       - name: Copy files to the test website with the AWS CLI
         run: |
           pwd
-          ls -lrt ${{steps.download.outputs.download-path}}
+          ls -lrt ${{steps.download-artifact.outputs.download-path}}
           aws s3 ls s3://mahendran-dev-data
-          aws s3 sync ${{steps.download.outputs.download-path}} s3://mahendran-dev-data/libs
+          aws s3 sync ${{steps.download-artifact.outputs.download-path}} s3://mahendran-dev-data/libs
