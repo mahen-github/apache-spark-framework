@@ -4,7 +4,6 @@ on:
   push:
     branches: "**"
 
-# https://medium.com/alterway/building-a-ci-cd-pipeline-for-a-spark-project-using-github-actions-sbt-and-aws-s3-part-1-c7d43658832d
 jobs:
   build:
     runs-on: ubuntu-latest
