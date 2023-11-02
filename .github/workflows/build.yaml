@@ -58,7 +58,7 @@ jobs:
         run: gradle check
   # https://github.com/aws-actions/configure-aws-credentials
   publish:
-    name: "deploy: upload artifact to aws s3"
+    name: "publish: upload artifact to aws s3"
     needs: test
     runs-on: ubuntu-latest
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.
