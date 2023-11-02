@@ -57,7 +57,7 @@ jobs:
       - name: Running Unit Tests
         run: gradle check
   # https://github.com/aws-actions/configure-aws-credentials
-  deploy:
+  publish:
     name: "deploy: upload artifact to aws s3"
     needs: test
     runs-on: ubuntu-latest
