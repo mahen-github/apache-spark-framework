@@ -2,7 +2,9 @@ name: CI CD
 
 on:
   push:
-    branches: "**"
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
 
 jobs:
   build:
