@@ -14,8 +14,10 @@ class MainTest extends AnyFunSpec with SparkSessionTestWrapper {
     it("calculates average age of the person data") {
       val file: URL =
         ClassLoader.getSystemClassLoader.getResource("people-example.csv")
-      assertEquals("23.0".toDouble,
-                   new CalculateAverageAge().calculateAverageAge(file.getFile).floor)
+      assertEquals(
+        "23.0".toDouble,
+        new CalculateAverageAge().calculateAverageAge(file.getFile).floor
+      )
     }
   }
 }

@@ -5,14 +5,12 @@ import org.apache.spark.sql.SparkSession
 trait Reader {
 
   def readCsv(spark: SparkSession) =
-    spark
-      .read
+    spark.read
       .option("header", true)
       .option("inferSchema", true)
       .option("mode", "DROPMALFORMED")
 
-  def readerCsvWithoutHeader(spark: SparkSession) = spark
-    .read
+  def readerCsvWithoutHeader(spark: SparkSession) = spark.read
     .option("header", false)
     .option("inferSchema", true)
     .option("mode", "DROPMALFORMED")
@@ -31,14 +29,10 @@ trait Reader {
    *   Kafka consumer properties
    * @return
    */
-  def readKafka(spark: SparkSession, topic: String, kafkaConfig: Map[String, String] = Map()) =
-    spark
-      .read
+  def readKafka(spark: SparkSession, kafkaConfig: Map[String, String] = Map()) =
+    spark.read
       .format("kafka")
       .options(kafkaConfig)
-      .option("subscribe", topic)
-      .option("startingOffsets", "earliest")
-      .option("endingOffsets", "latest")
       .load()
 
 }
