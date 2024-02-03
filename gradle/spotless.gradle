@@ -9,12 +9,12 @@ spotless {
 	}
 	scala {
 		version = "2.12.0"
-		scalafmt('3.5.9').configFile('.scalafmt.conf')
+		scalafmt('3.7.17').configFile('.scalafmt.conf')
 		trimTrailingWhitespace()
 		endWithNewline()
 	}
 	java {
-		googleJavaFormat('1.7')
+		googleJavaFormat('1.8')
 	}
 }
 

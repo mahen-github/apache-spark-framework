@@ -12,7 +12,6 @@ apply plugin: 'java'
 apply plugin: 'scala'
 apply plugin: 'idea'
 apply plugin: 'maven-publish'
-apply from: "$rootDir/gradle/artifactory.gradle"
 apply from: "$rootDir/gradle/checkstyle.gradle"
 apply from: "$rootDir/gradle/spotless.gradle"
 apply from: "$rootDir/gradle/scoverage.gradle"
@@ -23,39 +22,51 @@ version version
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
-configurations {
-	provided
-}
-
-sourceSets {
-	main {
-		compileClasspath += configurations.provided
-	}
-}
-
 application {
 	mainClassName = 'dev.template.spark.Main'
 }
 
-
 repositories {
 	mavenCentral()
+	maven { url 'https://packages.confluent.io/maven/' }
+}
+configurations {
+	provided
+	sparkLib
 }
 
 dependencies {
-	implementation "org.scalameta:scalafmt-core_${scalaVersion}:${scalafmt}"
+	compileOnly "org.apache.spark:spark-core_${scalaVersion}:${sparkVersion}"
 	implementation "org.apache.spark:spark-sql_${scalaVersion}:${sparkVersion}"
-	implementation "org.apache.spark:spark-graphx_${scalaVersion}:${sparkVersion}"
-	implementation "org.apache.spark:spark-launcher_${scalaVersion}:${sparkVersion}"
-	implementation "org.apache.spark:spark-catalyst_${scalaVersion}:${sparkVersion}"
-	implementation "org.apache.spark:spark-streaming_${scalaVersion}:${sparkVersion}"
-	implementation "org.apache.spark:spark-core_${scalaVersion}:${sparkVersion}"
-
-	implementation "org.apache.hadoop:hadoop-aws:${hadoopAWS}"
-	implementation "org.apache.spark:spark-hive_${scalaVersion}:${sparkVersion}"
+	compileOnly "org.apache.spark:spark-graphx_${scalaVersion}:${sparkVersion}"
+	compileOnly "org.apache.spark:spark-launcher_${scalaVersion}:${sparkVersion}"
+	compileOnly "org.apache.spark:spark-catalyst_${scalaVersion}:${sparkVersion}"
+	compileOnly "org.apache.spark:spark-streaming_${scalaVersion}:${sparkVersion}"
+	compileOnly "za.co.absa:abris_${scalaVersion}:${abrisVersion}"
 	implementation "io.delta:delta-core_${scalaVersion}:${deltaVersion}"
-	compileOnly "org.scala-lang:scala-library:$scalaVersion"
-	compileOnly "org.scala-lang:scala-compiler:${scalaVersion}"
+
+	implementation "com.google.cloud.bigdataoss:gcs-connector:${gcsConnectorVersion}"
+	implementation("org.apache.kafka:kafka_${scalaVersion}:${kafkaClientVersion}") {
+		exclude group: 'io.confluent', module: 'kafka-schema-registry-client'
+	}
+	implementation "io.confluent:kafka-schema-registry-client:${confluentVersion}"
+
+	implementation "org.apache.spark:spark-hive_${scalaVersion}:${sparkVersion}"
+	implementation "org.apache.spark:spark-sql-kafka-0-10_${scalaVersion}:${kafkaClientVersion}"
+
+	provided "com.google.cloud.bigdataoss:gcs-connector:${gcsConnectorVersion}"
+	provided "org.scalameta:scalafmt-core_${scalaVersion}:${scalafmt}"
+	provided "org.apache.spark:spark-core_${scalaVersion}:${sparkVersion}"
+	provided "org.apache.spark:spark-sql_${scalaVersion}:${sparkVersion}"
+	provided "org.apache.spark:spark-avro_${scalaVersion}:${sparkVersion}"
+	provided "org.apache.spark:spark-sql-kafka-0-10_${scalaVersion}:${kafkaClientVersion}"
+	provided "za.co.absa:abris_${scalaVersion}:${abrisVersion}"
+	provided "org.apache.kafka:kafka_${scalaVersion}:${kafkaClientVersion}"
+	provided "io.confluent:kafka-schema-registry-client:${confluentVersion}"
+	provided "org.apache.hadoop:hadoop-aws:${hadoopAWS}"
+	provided "org.apache.spark:spark-hive_${scalaVersion}:${sparkVersion}"
+	provided "org.scala-lang:scala-library:$scalaVersion"
+	provided "org.scala-lang:scala-compiler:${scalaVersion}"
 
 	testImplementation "org.scalatestplus:junit-4-13_${scalaVersion}:3.2.2.0"
 	testImplementation "junit:junit:${junitVersion}"
@@ -65,7 +76,6 @@ dependencies {
 	testImplementation "org.junit.jupiter:junit-jupiter-api:${jupiterApi}"
 	testImplementation "org.scalatest:scalatest_${scalaVersion}:${scalaTests}"
 }
-
 
 jar {
 	classifier 'all'
@@ -79,6 +89,19 @@ jar {
 	zip64 true
 }
 
+sourceSets {
+	main.compileClasspath += configurations.provided
+	test.compileClasspath += configurations.provided
+	test.runtimeClasspath += configurations.provided
+	test.java.srcDirs = ['src/test/scala']
+
+	local {
+		main.compileClasspath += configurations.provided
+		compileClasspath += configurations.provided
+		runtimeClasspath += main.output
+		runtimeClasspath += configurations.provided
+	}
+}
 
 tasks.register('scalaTest', JavaExec) {
 	dependsOn['testClasses']
@@ -99,6 +122,6 @@ idea {
 
 task sparkSubmit(type: Exec) {
 	commandLine 'sh', '-c', "/Users/e1xx/spark-3.4.1-bin-hadoop3/bin/spark-submit " +
-			"--class dev.template.spark.RddCollect" +
+			"--class dev.template.spark.Wordcount" +
 			" --master spark://localhost:7077 build/libs/spark-scala-gradle-bootstrap-2.12.0-all.jar"
 }
