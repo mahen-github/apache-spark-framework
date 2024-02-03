@@ -13,7 +13,6 @@ A Spark bootstrap project written in Scala with gradle as build tool.
 - JavaVersion=1.11
 - sparkVersion=3.4.1
 - scalaVersion=2.12
-- deltaVersion=2.4.0
 
 ### Build
 

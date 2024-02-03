@@ -28,5 +28,7 @@ Run this application on Google Cloud Dataproc
 
 - Added word count examples and test
 - Added GCS libraries and tests
-- Added abris
+- Added abris, an AVRO 3rd party library to read and write avro data
 - Added Hive sample app with public covid data
+- Removing delta dependency as GCP supports Iceberg
+- Added .scalafmt.conf file
