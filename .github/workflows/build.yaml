@@ -1,8 +1,6 @@
 name: CI CD
 
 on:
-  push:
-    branches: main
   pull_request:
     branches: main
 
@@ -22,7 +20,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 7.6
-      - run: gradle assemble
+      - run: gradle assemble -Pversion=${{ github.ref_name }}
       - name: upload the build artifact
         uses: actions/upload-artifact@v3
         with:

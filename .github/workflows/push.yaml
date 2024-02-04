@@ -2,8 +2,7 @@ name: CI CD
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches: main
 
 jobs:
   build:
@@ -56,10 +55,8 @@ jobs:
       - name: Running Unit Tests
         run: gradle check
   # https://github.com/aws-actions/configure-aws-credentials
-  publish_prod:
+  publish:
     name: "publish: upload artifact to aws s3"
-    prod-check:
-      if: ${{ github.ref == 'refs/tags/<tag_name>' }}
     needs: test
     runs-on: ubuntu-latest
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.
@@ -81,7 +78,7 @@ jobs:
           aws-region: us-west-2
       - name: Copy files to the test website with the AWS CLI
         run: |
-
+          ls -lrt ${{steps.download-artifact.outputs.download-path}}
           aws s3 sync ${{steps.download-artifact.outputs.download-path}} ${{ vars.AWS_S3_PATH }}
           aws s3 ls ${{ vars.AWS_S3_PATH }}
           echo "🍏 This job's status is ${{ job.status }}."
