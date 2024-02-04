@@ -81,8 +81,6 @@ jobs:
       - name: Copy files to the test website with the AWS CLI
         run: |
           ls -lrt ${{steps.download-artifact.outputs.download-path}}
-          echo ARTIFACT_AWS_S3_PATH ${{ vars.ARTIFACT_AWS_S3_PATH }}
-          echo ARTIFACT_AWS_S3_PATH ${{ vars.AWS_S3_PATH }}
           aws s3 sync ${{steps.download-artifact.outputs.download-path}} ${{ vars.AWS_S3_PATH }}
           aws s3 ls ${{ vars.AWS_S3_PATH }}
           echo "🍏 This job's status is ${{ job.status }}."
