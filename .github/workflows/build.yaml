@@ -16,10 +16,9 @@ jobs:
           distribution: 'corretto'
           java-version: '11'
           cache: 'gradle'
-      - name: Setup Gradle 7.6
-        uses: gradle/gradle-build-action@v2
       - name: slug_action
-      - run: |
+        uses: rlespinasse/github-slug-action@v4
+        run: |
           echo "Partial variables"
           echo "   repository owner    : ${{ env.GITHUB_REPOSITORY_OWNER_PART }}"
           echo "   repository name     : ${{ env.GITHUB_REPOSITORY_NAME_PART }}"
@@ -42,7 +41,8 @@ jobs:
           echo "Short SHA variables"
           echo "   sha                 : ${{ env.GITHUB_SHA_SHORT }}"
           echo "   pull request sha    : ${{ env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA_SHORT }}"
-        uses: rlespinasse/github-slug-action@v4
+      - name: Setup Gradle 7.6
+        uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 7.6
       - run: gradle assemble -Pversion=${{ github.ref_name }}
