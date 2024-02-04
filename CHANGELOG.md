@@ -32,3 +32,11 @@ Run this application on Google Cloud Dataproc
 - Added Hive sample app with public covid data
 - Removing delta dependency as GCP supports Iceberg
 - Added .scalafmt.conf file
+
+## [1.0.1] - 2023-02-04
+
+Run this application on Google Cloud Dataproc
+
+### Added
+
+- Added a Dev and Prod pipeline that runs the build, test and publish the artifact to AWS S3.
