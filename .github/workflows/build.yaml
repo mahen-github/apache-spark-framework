@@ -19,7 +19,7 @@ jobs:
       - name: Setup Gradle 7.6
         uses: gradle/gradle-build-action@v2
       - name: slug_action
-        run: |
+      - run: |
           echo "Partial variables"
           echo "   repository owner    : ${{ env.GITHUB_REPOSITORY_OWNER_PART }}"
           echo "   repository name     : ${{ env.GITHUB_REPOSITORY_NAME_PART }}"
