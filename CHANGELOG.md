@@ -40,3 +40,4 @@ Run this application on Google Cloud Dataproc
 ### Added
 
 - Added a Dev and Prod pipeline that runs the build, test and publish the artifact to AWS S3.
+- Added github-slug-action
