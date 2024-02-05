@@ -7,9 +7,6 @@ out
 # sbt-idea plugin
 .idea_modules/
 
-# scala fmt
-.scalafmt.conf
-
 # Ignore Gradle project-specific cache directory
 .gradle
 
@@ -28,7 +25,6 @@ metastore_db
 *.class
 
 # Package Files #
-*.jar
 *.war
 *.ear
 

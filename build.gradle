@@ -17,7 +17,6 @@ apply from: "$rootDir/gradle/spotless.gradle"
 apply from: "$rootDir/gradle/scoverage.gradle"
 
 group group
-version version
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
@@ -79,6 +78,7 @@ dependencies {
 
 jar {
 	classifier 'all'
+	archiveVersion.set(project.hasProperty('version') ? project['version'] : 'UNKNOWN')
 	manifest {
 		attributes 'Implementation-Title': title,
 				'Implementation-Version': archiveVersion,

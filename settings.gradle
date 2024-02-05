@@ -34,4 +34,4 @@ buildscript {
 }
 
 rootProject.name = 'apache-spark-framework'
-assert gradle.gradleVersion =~ "7..+"
+assert gradle.gradleVersion >= "7..+"
